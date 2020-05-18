@@ -51,6 +51,26 @@ public class Order {
 		return new Order(oIdTemp, cIdTemp, valueTemp);
 	}
 
+	public Order readOrder(int oId) {
+		String query = "SELECT * FROM orders WHERE OID = " + oId;
+		ResultSet rs = DBConfig.exQuery(query);
+		int oIdTemp = 0;
+		int cIdTemp = 0;
+		double valueTemp = 0.0;
+		try {
+			while (rs.next()) {
+				// temp sout to check method works
+				System.out.println(rs.getInt("OID") + ", " + rs.getInt("fk_CID") + ", " + rs.getDouble("value"));
+				oIdTemp = rs.getInt("OID");
+				cIdTemp = rs.getInt("fk_CID");
+				valueTemp = rs.getDouble("value");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new Order(oIdTemp, cIdTemp, valueTemp);
+	}
+
 	// Delete part of CRUD functionality
 	public void deleteOrder(int OID) {
 		String query = "DELETE FROM orders WHERE OID = " + OID;
@@ -81,7 +101,8 @@ public class Order {
 		this.value = value;
 	}
 
-	public double calcValue() {
+	public double calcValue(double price, int quantity) {
+		double value = price * quantity;
 		return value;
 	}
 

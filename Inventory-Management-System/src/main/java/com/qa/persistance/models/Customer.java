@@ -1,10 +1,5 @@
 package com.qa.persistance.models;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import com.qa.inventorymanagementsystem.DBConfig;
-
 public class Customer {
 	private int cId;
 	private String firstName;
@@ -38,93 +33,12 @@ public class Customer {
 		this.email = email;
 	}
 
-	// Create part of the CRUD functionality
-	public void createCustomer(int cId, String firstName, String lastName, String address, String city, String postCode,
-			String email) {
-		String query = "INSERT INTO customers (`first_name`, `last_name`, `address`, `city`, `post_code`, `email`) VALUES ('"
-				+ firstName + "', '" + lastName + "', '" + address + "', '" + city + "', '" + postCode + "', '" + email
-				+ "')";
-		DBConfig.exUpdate(query);
-	}
-
-	// Will probably replace the create statements with prepared statements. This
-	// method will be to test that
-//	public void createCustomer(int cId, String firstName, String lastName, String address, String city, String postCode,
-//			String email) {
-//		String query = "INSERT INTO customers (`first_name`, `last_name`, `address`, `city`, `post_code`, `email`) VALUES (?, ?, ?, ?, ?, ?)";
-//		DBConfig.exUpdate(query);
-//
-//	}
-
-	// reads all the customer data
-	public Customer readAll() {
-		String query = "SELECT * FROM customers";
-		ResultSet rs = DBConfig.exQuery(query);
-		int cIdTemp = 0;
-		String firstNameTemp = null;
-		String lastNameTemp = null;
-		String addressTemp = null;
-		String cityTemp = null;
-		String postCodeTemp = null;
-		String emailTemp = null;
-		try {
-			while (rs.next()) {
-				// This Sout is only temporary just to check the method works. Need to implement
-				// some sort of toString method
-				System.out.println(rs.getInt("CID") + ", " + rs.getString("first_name") + ", "
-						+ rs.getString("last_name") + ", " + rs.getString("address") + ", " + rs.getString("city")
-						+ ", " + rs.getString("post_code") + ", " + rs.getString("email"));
-				cIdTemp = rs.getInt("CID");
-				firstNameTemp = rs.getString("first_name");
-				lastNameTemp = rs.getString("last_name");
-				addressTemp = rs.getString("address");
-				cityTemp = rs.getString("city");
-				postCodeTemp = rs.getString("post_code");
-				emailTemp = rs.getString("email");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return new Customer(cIdTemp, firstNameTemp, lastNameTemp, addressTemp, cityTemp, postCodeTemp, emailTemp);
-	}
-
-	// Returns only one customer specified by the CID. Need to implement this
-	public Customer readCustomer(int cId) {
-		String query = "SELECT * FROM customers WHERE CID = " + cId;
-		ResultSet rs = DBConfig.exQuery(query);
-		int cIdTemp = 0;
-		String firstNameTemp = null;
-		String lastNameTemp = null;
-		String addressTemp = null;
-		String cityTemp = null;
-		String postCodeTemp = null;
-		String emailTemp = null;
-		try {
-			while (rs.next()) {
-				cIdTemp = rs.getInt("CID");
-				firstNameTemp = rs.getString("first_name");
-				lastNameTemp = rs.getString("last_name");
-				addressTemp = rs.getString("address");
-				cityTemp = rs.getString("city");
-				postCodeTemp = rs.getString("post_code");
-				emailTemp = rs.getString("email");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return new Customer(cIdTemp, firstNameTemp, lastNameTemp, addressTemp, cityTemp, postCodeTemp, emailTemp);
-	}
-
-	// Add update method
-
-	// Delete part of CRUD functionality
-	public void deleteCustomer(int cId) {
-		String query = "DELETE FROM customers WHERE CID = " + cId;
-		DBConfig.exUpdate(query);
-	}
-
 	public int getCId() {
 		return cId;
+	}
+
+	public void setCId(int cId) {
+		this.cId = cId;
 	}
 
 	public String getFirstName() {
