@@ -108,7 +108,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [oId=" + oId + ", cId=" + cId + "]";
+		return String.format("%d\t%d\t%.2f", oId, cId, value);
 	}
 
 }

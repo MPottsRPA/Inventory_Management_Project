@@ -1,5 +1,7 @@
 package com.qa.utils;
 
+import java.util.ArrayList;
+
 import com.qa.persistance.managers.CustomerManager;
 import com.qa.persistance.managers.ProductManager;
 import com.qa.persistance.models.Customer;
@@ -53,11 +55,9 @@ public class Menu {
 		System.out.println("Do you wish to create this customer? (Y/N)");
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
-			// Can do this or point the inputs to customer setter methods and just put in
-			// customer object eg customerManager.createCustomer(customer);
-			customerManager.createCustomer(new Customer(0, firstName, lastName, address, city, postCode, email));
+			customerManager.create(new Customer(0, firstName, lastName, address, city, postCode, email));
 			System.out.println("Successfully created a new customer!");
-			customerManager.readAll();
+			viewCustomersMenu();
 		} else if (check.equalsIgnoreCase("N")) {
 			System.out.println(
 					"Do you want to: \n1) Reinput values? \n2) Exit create customer menu and go back to the main menu?");
@@ -89,11 +89,9 @@ public class Menu {
 		System.out.println("Do you wish to create this product? (Y/N)");
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
-			// Can do this or point the inputs to product setter methods and just put in
-			// product object eg productManager.createProduct(product);
-			productManager.createProduct(new Product(0, name, price, stock));
+			productManager.create(new Product(0, name, price, stock));
 			System.out.println("Successfully created a new product!");
-			productManager.readAll();
+			viewProductsMenu();
 		} else if (check.equalsIgnoreCase("N")) {
 			System.out.println(
 					"Do you want to: \n1) Reinput values? \n2) Exit create product menu and go back to the main menu?");
@@ -123,8 +121,6 @@ public class Menu {
 		System.out.println("Do you wish to create this order? (Y/N)");
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
-			// Can do this or point the inputs to product setter methods and just put in
-			// product object eg productManager.createProduct(product);
 			order.createOrder(0, ordercId, value);
 			System.out.println("Successfully created a new order!");
 			order.readAll();
@@ -147,11 +143,19 @@ public class Menu {
 	}
 
 	public void viewCustomersMenu() {
-		customerManager.readAll();
+		ArrayList<Object> customerList = customerManager.readAll();
+		for (Object o : customerList) {
+			Customer c = (Customer) o;
+			System.out.println(c.toString());
+		}
 	}
 
 	public void viewProductsMenu() {
-		productManager.readAll();
+		ArrayList<Object> productList = productManager.readAll();
+		for (Object o : productList) {
+			Product p = (Product) o;
+			System.out.println(p.toString());
+		}
 	}
 
 	public void viewOrdersMenu() {
@@ -162,7 +166,7 @@ public class Menu {
 		System.out.println("Please enter the Customer ID for the customer you wish to update the details of: ");
 		int cId = userInput.inputInt();
 		System.out.println("The customer you have chosen to update is: \n");
-		customerManager.readCustomer(cId);
+		System.out.println(customerManager.readRecord(cId).toString());
 		System.out
 				.println("What details do you wish to update? \n1) First name \n2) Last name \n3) Address \n4) Email");
 		int choice = userInput.inputInt();
@@ -177,8 +181,7 @@ public class Menu {
 			String check = userInput.input();
 			if (check.equalsIgnoreCase("Y")) {
 				customerManager.updateFirstName(cId, firstName);
-				System.out.println("Successfully updated the customer's first name!");
-				customerManager.readCustomer(cId);
+				System.out.println(customerManager.readRecord(cId).toString());
 			} else if (check.equalsIgnoreCase("N")) {
 				System.out.println(
 						"Do you want to: \n1)Go back to the update customer menu? \n2)Exit update customer menu and go back to the main menu?");
@@ -206,8 +209,7 @@ public class Menu {
 			check = userInput.input();
 			if (check.equalsIgnoreCase("Y")) {
 				customerManager.updateLastName(cId, lastName);
-				System.out.println("Successfully updated the customer's last name!");
-				customerManager.readCustomer(cId);
+				System.out.println(customerManager.readRecord(cId).toString());
 			} else if (check.equalsIgnoreCase("N")) {
 				System.out.println(
 						"Do you want to: \n1)Go back to the update customer menu? \n2)Exit update customer menu and go back to the main menu?");
@@ -239,8 +241,7 @@ public class Menu {
 			check = userInput.input();
 			if (check.equalsIgnoreCase("Y")) {
 				customerManager.updateAddress(cId, address, city, postCode);
-				System.out.println("Successfully updated the customer's address!");
-				customerManager.readCustomer(cId);
+				System.out.println(customerManager.readRecord(cId).toString());
 			} else if (check.equalsIgnoreCase("N")) {
 				System.out.println(
 						"Do you want to: \n1)Go back to the update customer menu? \n2)Exit update customer menu and go back to the main menu?");
@@ -267,8 +268,7 @@ public class Menu {
 			check = userInput.input();
 			if (check.equalsIgnoreCase("Y")) {
 				customerManager.updateEmail(cId, email);
-				System.out.println("Successfully updated the customer's email!");
-				customerManager.readCustomer(cId);
+				System.out.println(customerManager.readRecord(cId).toString());
 			} else if (check.equalsIgnoreCase("N")) {
 				System.out.println(
 						"Do you want to: \n1)Go back to the update customer menu? \n2)Exit update customer menu and go back to the main menu?");
@@ -296,7 +296,7 @@ public class Menu {
 		System.out.println("Please enter the Product ID for the product you wish to update the details of: ");
 		int pId = userInput.inputInt();
 		System.out.println("The product you have chosen to update is: \n");
-		productManager.readProduct(pId);
+		System.out.println(productManager.readRecord(pId).toString());
 		System.out.println("What details do you wish to update? \n1) Name \n2) Price \n3) Stock");
 		int choice = userInput.inputInt();
 
@@ -310,7 +310,7 @@ public class Menu {
 			if (check.equalsIgnoreCase("Y")) {
 				productManager.updateName(pId, name);
 				System.out.println("Successfully updated the product's name!");
-				productManager.readProduct(pId);
+				System.out.println(productManager.readRecord(pId).toString());
 			} else if (check.equalsIgnoreCase("N")) {
 				System.out.println(
 						"Do you want to: \n1)Go back to the update product menu? \n2)Exit update product menu and go back to the main menu?");
@@ -338,7 +338,7 @@ public class Menu {
 			if (check.equalsIgnoreCase("Y")) {
 				productManager.updatePrice(pId, price);
 				System.out.println("Successfully updated the product's price!");
-				productManager.readProduct(pId);
+				System.out.println(productManager.readRecord(pId).toString());
 			} else if (check.equalsIgnoreCase("N")) {
 				System.out.println(
 						"Do you want to: \n1)Go back to the update product menu? \n2)Exit update product menu and go back to the main menu?");
@@ -366,7 +366,7 @@ public class Menu {
 			if (check.equalsIgnoreCase("Y")) {
 				productManager.updateStock(pId, stock);
 				System.out.println("Successfully updated the product's stock!");
-				productManager.readProduct(pId);
+				System.out.println(productManager.readRecord(pId).toString());
 			} else if (check.equalsIgnoreCase("N")) {
 				System.out.println(
 						"Do you want to: \n1)Go back to the update product menu? \n2)Exit update product menu and go back to the main menu?");
@@ -394,13 +394,13 @@ public class Menu {
 		System.out.println("Please enter the Customer ID for the customer you wish to delete from the database: ");
 		int cId = userInput.inputInt();
 		System.out.println("The customer you have chosen to delete is: \n");
-		customerManager.readCustomer(cId);
+		System.out.println(customerManager.readRecord(cId).toString());
 		System.out.println("Do you wish to delete this customer? (Y/N)");
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
-			customerManager.deleteCustomer(cId);
+			customerManager.delete(cId);
 			System.out.println("Successfully deleted customer!");
-			customerManager.readAll();
+			viewCustomersMenu();
 		} else if (check.equalsIgnoreCase("N")) {
 			System.out.println(
 					"Do you want to: \n1) Choose a different customer to delete? \n2) Exit delete customer menu and go back to the main menu?");
@@ -423,13 +423,13 @@ public class Menu {
 		System.out.println("Please enter the Product ID of the product you wish to delete from the database: ");
 		int pId = userInput.inputInt();
 		System.out.println("The product you have chosen to delete is: \n");
-		productManager.readProduct(pId);
+		System.out.println(productManager.readRecord(pId).toString());
 		System.out.println("Do you wish to delete this order? (Y/N)");
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
-			productManager.deleteProduct(pId);
+			productManager.delete(pId);
 			System.out.println("Successfully deleted product!");
-			productManager.readAll();
+			viewProductsMenu();
 		} else if (check.equalsIgnoreCase("N")) {
 			System.out.println(
 					"Do you want to: \n1) Choose a different product to delete? \n2) Exit delete product menu and go back to the main menu?");

@@ -86,14 +86,13 @@ public class Customer {
 	}
 
 	public void setEmail(String email) {
-		// "^.+@.+(\\.[^\\.]+)+$" <-validate the email somehow?
 		this.email = email;
 	}
 
 	@Override
 	public String toString() {
-		return "Customer [cId=" + cId + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address
-				+ ", city=" + city + ", postCode=" + postCode + ", email=" + email + "]";
+		return String.format("%1d\t%10s\t%10s\t%20s\t%20s\t%20s\t%20s", cId, firstName, lastName, address, city,
+				postCode, email);
 	}
 
 }
