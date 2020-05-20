@@ -1,6 +1,6 @@
 package com.qa.inventorymanagementsystem;
 
-import com.qa.utils.Menu;
+import com.qa.utils.DBConfig;
 import com.qa.utils.Scan;
 
 public class MainSystem {
@@ -8,6 +8,7 @@ public class MainSystem {
 	public static void main(String[] args) {
 		DBConfig.connectDB();
 		MainSystem.showMenu();
+		DBConfig.closeConnection();
 	}
 
 	public static void showMenu() {
@@ -72,7 +73,5 @@ public class MainSystem {
 				System.out.println("Invalid option!!! Please enter again.");
 			}
 		}
-
-		System.out.println("Thankyou for visiting the Cavers Shop!");
 	}
 }

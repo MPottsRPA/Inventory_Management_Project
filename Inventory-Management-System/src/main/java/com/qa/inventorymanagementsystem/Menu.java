@@ -1,17 +1,20 @@
-package com.qa.utils;
+package com.qa.inventorymanagementsystem;
 
 import java.util.ArrayList;
 
 import com.qa.persistance.managers.CustomerManager;
+import com.qa.persistance.managers.OrderManager;
 import com.qa.persistance.managers.ProductManager;
 import com.qa.persistance.models.Customer;
 import com.qa.persistance.models.Order;
 import com.qa.persistance.models.Product;
+import com.qa.utils.Scan;
 
 public class Menu {
 
 	private CustomerManager customerManager = new CustomerManager();
 	private ProductManager productManager = new ProductManager();
+	private OrderManager orderManager = new OrderManager();
 	private Order order = new Order();
 	private Scan userInput = new Scan();
 
@@ -114,16 +117,30 @@ public class Menu {
 		System.out.println("You have chosen to create a new order");
 		System.out.println("Please enter your customer ID: ");
 		int ordercId = userInput.inputInt();
-		System.out.println("Please enter the value of the product you want to order: ");
-		double value = userInput.inputDouble();
-		System.out.println(
-				"The order record you wish to create is as follows: \n" + "cId = " + ordercId + "\nValue = " + value);
+		double value = 0;
+		// String yesNo = "Y";
+		// do {
+		System.out.println("Please enter the product ID of the product you want to order: ");
+		int pId = userInput.inputInt();
+		double price = productManager.findPrice(pId);
+		System.out.println("The product you have chosen to order is: \n" + productManager.readRecord(pId).toString());
+		System.out.println("Please enter how many of this product you want to purchase: ");
+		int quantity = userInput.inputInt();
+		value = value + order.calcValue(price, quantity);
+		System.out.println("The value of your order is " + value);
+
+		// Do you want to add another product to your order?
+		// yesNo = inputs Y/N
+		// if Y: goes back to top
+		// } while (yesNo.equalsIgnoreCase("Y"));
+
 		System.out.println("Do you wish to create this order? (Y/N)");
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
-			order.createOrder(0, ordercId, value);
+			orderManager.create(new Order(0, ordercId, value));
+			// orderProduct.createOrderProduct(oid, pid, quantity);
 			System.out.println("Successfully created a new order!");
-			order.readAll();
+			viewOrdersMenu();
 		} else if (check.equalsIgnoreCase("N")) {
 			System.out.println(
 					"Do you want to: \n1) Reinput values? \n2) Exit create order menu and go back to the main menu?");
@@ -159,7 +176,11 @@ public class Menu {
 	}
 
 	public void viewOrdersMenu() {
-		order.readAll();
+		ArrayList<Object> orderList = orderManager.readAll();
+		for (Object o : orderList) {
+			Order ord = (Order) o;
+			System.out.println(ord.toString());
+		}
 	}
 
 	public void updateCustomerMenu() {
@@ -452,13 +473,13 @@ public class Menu {
 		System.out.println("Please enter the Order ID of the order you wish to delete from the database: ");
 		int oId = userInput.inputInt();
 		System.out.println("The order you have chosen to delete is: \n");
-		order.readOrder(oId);
+		System.out.println(orderManager.readRecord(oId).toString());
 		System.out.println("Do you wish to delete this order? (Y/N)");
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
-			order.deleteOrder(oId);
+			orderManager.delete(oId);
 			System.out.println("Successfully deleted order!");
-			order.readAll();
+			viewOrdersMenu();
 		} else if (check.equalsIgnoreCase("N")) {
 			System.out.println(
 					"Do you want to: \n1) Choose a different order to delete? \n2) Exit delete order menu and go back to the main menu?");

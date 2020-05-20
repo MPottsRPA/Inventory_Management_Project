@@ -1,9 +1,7 @@
-package com.qa.inventorymanagementsystem;
+package com.qa.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -17,7 +15,6 @@ public class DBConfig {
 
 	static Connection conn = null;
 	static Statement stmnt = null;
-	static PreparedStatement prepstmnt = null;
 
 	public static void connectDB() {
 		try {
@@ -28,29 +25,6 @@ public class DBConfig {
 			System.out.println("Connection Failed.");
 			e.printStackTrace();
 		}
-	}
-
-	// Separates the executeUpdate method
-	public static void exUpdate(String query) {
-		try {
-			stmnt.executeUpdate(query);
-			System.out.println("Execution of query successful.");
-		} catch (SQLException e) {
-			System.out.println("Error executing query.");
-			e.printStackTrace();
-		}
-	}
-
-	public static ResultSet exQuery(String query) {
-		ResultSet r = null;
-		try {
-			r = stmnt.executeQuery(query);
-			System.out.println("Execution of query successful.");
-		} catch (SQLException e) {
-			System.out.println("Error executing query.");
-			e.printStackTrace();
-		}
-		return r;
 	}
 
 	public static Connection checkConnection() {
@@ -67,9 +41,10 @@ public class DBConfig {
 		return conn;
 	}
 
-	static void closeConnection() {
+	public static void closeConnection() {
 		try {
 			checkConnection().close();
+			System.out.println("Thankyou for visiting the Cavers Shop!");
 		} catch (SQLException e) {
 			System.out.println("Error closing database connection!");
 			e.printStackTrace();
