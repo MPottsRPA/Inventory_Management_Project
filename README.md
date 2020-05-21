@@ -1,7 +1,7 @@
-#Caving Equipment Store Inventory Management Project
+<h1>Caving Equipment Store Inventory Management Project</h1>
 Solo inventory management project due end of week 5 @ QAC RPA Course
 
-#Contents
+<h1>Contents</h1>
 [`Project Brief`](#Project-Brief)
 - [`Constraints`](#Constraints)
 [`Plan`](#Plan)
