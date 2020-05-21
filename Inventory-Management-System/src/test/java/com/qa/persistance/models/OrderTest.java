@@ -9,6 +9,11 @@ public class OrderTest {
 	private Order order = new Order(1, 1, 1.00);
 
 	@Test
+	public void testCalcValue() {
+		assertEquals(25, order.calcValue(5, 5), 0);
+	}
+
+	@Test
 	public void getOIdTest() {
 		assertEquals(1, order.getoId());
 	}

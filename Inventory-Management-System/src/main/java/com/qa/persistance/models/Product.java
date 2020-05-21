@@ -13,6 +13,13 @@ public class Product {
 		this.stock = 0;
 	}
 
+	public Product(String name, double price, int stock) {
+		super();
+		this.name = name;
+		this.price = price;
+		this.stock = stock;
+	}
+
 	public Product(int pId, String name, double price, int stock) {
 		super();
 		this.pId = pId;

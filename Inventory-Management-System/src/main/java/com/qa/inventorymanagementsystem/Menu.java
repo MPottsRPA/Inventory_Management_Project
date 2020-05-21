@@ -59,8 +59,6 @@ public class Menu {
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
 			customerManager.create(new Customer(0, firstName, lastName, address, city, postCode, email));
-			System.out.println("Successfully created a new customer!");
-			viewCustomersMenu();
 		} else if (check.equalsIgnoreCase("N")) {
 			System.out.println(
 					"Do you want to: \n1) Reinput values? \n2) Exit create customer menu and go back to the main menu?");
@@ -93,8 +91,6 @@ public class Menu {
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
 			productManager.create(new Product(0, name, price, stock));
-			System.out.println("Successfully created a new product!");
-			viewProductsMenu();
 		} else if (check.equalsIgnoreCase("N")) {
 			System.out.println(
 					"Do you want to: \n1) Reinput values? \n2) Exit create product menu and go back to the main menu?");
@@ -118,8 +114,6 @@ public class Menu {
 		System.out.println("Please enter your customer ID: ");
 		int ordercId = userInput.inputInt();
 		double value = 0;
-		// String yesNo = "Y";
-		// do {
 		System.out.println("Please enter the product ID of the product you want to order: ");
 		int pId = userInput.inputInt();
 		double price = productManager.findPrice(pId);
@@ -128,19 +122,10 @@ public class Menu {
 		int quantity = userInput.inputInt();
 		value = value + order.calcValue(price, quantity);
 		System.out.println("The value of your order is " + value);
-
-		// Do you want to add another product to your order?
-		// yesNo = inputs Y/N
-		// if Y: goes back to top
-		// } while (yesNo.equalsIgnoreCase("Y"));
-
 		System.out.println("Do you wish to create this order? (Y/N)");
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
 			orderManager.create(new Order(0, ordercId, value));
-			// orderProduct.createOrderProduct(oid, pid, quantity);
-			System.out.println("Successfully created a new order!");
-			viewOrdersMenu();
 		} else if (check.equalsIgnoreCase("N")) {
 			System.out.println(
 					"Do you want to: \n1) Reinput values? \n2) Exit create order menu and go back to the main menu?");
@@ -420,8 +405,6 @@ public class Menu {
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
 			customerManager.delete(cId);
-			System.out.println("Successfully deleted customer!");
-			viewCustomersMenu();
 		} else if (check.equalsIgnoreCase("N")) {
 			System.out.println(
 					"Do you want to: \n1) Choose a different customer to delete? \n2) Exit delete customer menu and go back to the main menu?");
@@ -449,8 +432,6 @@ public class Menu {
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
 			productManager.delete(pId);
-			System.out.println("Successfully deleted product!");
-			viewProductsMenu();
 		} else if (check.equalsIgnoreCase("N")) {
 			System.out.println(
 					"Do you want to: \n1) Choose a different product to delete? \n2) Exit delete product menu and go back to the main menu?");
@@ -478,8 +459,6 @@ public class Menu {
 		String check = userInput.input();
 		if (check.equalsIgnoreCase("Y")) {
 			orderManager.delete(oId);
-			System.out.println("Successfully deleted order!");
-			viewOrdersMenu();
 		} else if (check.equalsIgnoreCase("N")) {
 			System.out.println(
 					"Do you want to: \n1) Choose a different order to delete? \n2) Exit delete order menu and go back to the main menu?");

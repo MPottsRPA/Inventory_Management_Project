@@ -12,6 +12,12 @@ public class Order {
 		this.value = 0.0;
 	}
 
+	public Order(int cId, double value) {
+		super();
+		this.cId = cId;
+		this.value = value;
+	}
+
 	public Order(int oId, int cId, double value) {
 		super();
 		this.oId = oId;

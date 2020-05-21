@@ -11,7 +11,7 @@ import com.qa.utils.DBConfig;
 
 public class ProductManager implements IQuery {
 
-	public void create(Object object) {
+	public Object create(Object object) {
 		if (object instanceof Product) {
 			Product product = (Product) object;
 			String query = "INSERT INTO products VALUES (?,?,?,?)";
@@ -22,10 +22,13 @@ public class ProductManager implements IQuery {
 				prepstmnt.setDouble(3, product.getPrice());
 				prepstmnt.setInt(4, product.getStock());
 				prepstmnt.executeUpdate();
+				System.out.println("Successfully created a new product!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			return product;
 		}
+		return null;
 	}
 
 	public ArrayList<Object> readAll() {
@@ -71,7 +74,7 @@ public class ProductManager implements IQuery {
 			PreparedStatement prepstmnt = DBConfig.checkConnection().prepareStatement(query);
 			ResultSet rs = prepstmnt.executeQuery();
 			while (rs.next()) {
-				priceTemp = rs.getDouble(3);
+				priceTemp = rs.getDouble(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -80,50 +83,65 @@ public class ProductManager implements IQuery {
 	}
 
 	// Update product name
-	public void updateName(int pId, String name) {
-		String query = "UPDATE products SET name = '" + name + "' WHERE PID = " + pId;
+	public boolean updateName(int pId, String name) {
+		String query = "UPDATE products SET name = ? WHERE PID = ?";
 		try {
 			PreparedStatement prepstmnt = DBConfig.checkConnection().prepareStatement(query);
+			prepstmnt.setString(1, name);
+			prepstmnt.setInt(2, pId);
 			prepstmnt.executeUpdate();
 			System.out.println("Product " + pId + "'s name has been updated.");
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	// Update product price
-	public void updatePrice(int pId, double price) {
-		String query = "UPDATE products SET price = '" + price + "' WHERE PID = " + pId;
+	public boolean updatePrice(int pId, double price) {
+		String query = "UPDATE products SET price = ? WHERE PID = ?";
 		try {
 			PreparedStatement prepstmnt = DBConfig.checkConnection().prepareStatement(query);
+			prepstmnt.setDouble(1, price);
+			prepstmnt.setInt(2, pId);
 			prepstmnt.executeUpdate();
 			System.out.println("Product " + pId + "'s price has been updated.");
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	// Update product stock
-	public void updateStock(int pId, int stock) {
-		String query = "UPDATE products SET stock = '" + stock + "' WHERE PID = " + pId;
+	public boolean updateStock(int pId, int stock) {
+		String query = "UPDATE products SET stock = ? WHERE PID = ?";
 		try {
 			PreparedStatement prepstmnt = DBConfig.checkConnection().prepareStatement(query);
+			prepstmnt.setInt(1, stock);
+			prepstmnt.setInt(2, pId);
 			prepstmnt.executeUpdate();
 			System.out.println("Product " + pId + "'s stock has been updated.");
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	// Delete part of CRUD functionality
-	public void delete(int id) {
-		String query = "DELETE FROM products WHERE PID = " + id;
+	public boolean delete(int id) {
+		String query = "DELETE FROM products WHERE PID = ?";
 		try {
 			PreparedStatement prepstmnt = DBConfig.checkConnection().prepareStatement(query);
+			prepstmnt.setInt(1, id);
 			prepstmnt.executeUpdate();
-			System.out.println("Product record " + id + " has been deleted.");
+			System.out.println("Successfully deleted product!");
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 }

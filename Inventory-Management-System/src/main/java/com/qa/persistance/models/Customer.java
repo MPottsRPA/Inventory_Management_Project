@@ -20,6 +20,16 @@ public class Customer {
 		this.email = "";
 	}
 
+	public Customer(String firstName, String lastName, String address, String city, String postCode, String email) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.postCode = postCode;
+		this.email = email;
+	}
+
 	// customer constructor
 	public Customer(int cId, String firstName, String lastName, String address, String city, String postCode,
 			String email) {

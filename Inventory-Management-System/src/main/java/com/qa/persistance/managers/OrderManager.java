@@ -11,7 +11,7 @@ import com.qa.utils.DBConfig;
 
 public class OrderManager implements IQuery {
 
-	public void create(Object object) {
+	public Object create(Object object) {
 		if (object instanceof Order) {
 			Order order = (Order) object;
 			String query = "INSERT INTO orders VALUES (?,?,?)";
@@ -21,10 +21,13 @@ public class OrderManager implements IQuery {
 				prepstmnt.setInt(2, order.getcId());
 				prepstmnt.setDouble(3, order.getValue());
 				prepstmnt.executeUpdate();
+				System.out.println("Successfully created a new order!");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			return order;
 		}
+		return null;
 	}
 
 	public ArrayList<Object> readAll() {
@@ -61,14 +64,17 @@ public class OrderManager implements IQuery {
 		return new Order(oIdTemp, fkcIdTemp, valueTemp);
 	}
 
-	public void delete(int id) {
-		String query = "DELETE FROM orders WHERE OID = " + id;
+	public boolean delete(int id) {
+		String query = "DELETE FROM orders WHERE OID = ?";
 		try {
 			PreparedStatement prepstmnt = DBConfig.checkConnection().prepareStatement(query);
+			prepstmnt.setInt(1, id);
 			prepstmnt.executeUpdate();
-			System.out.println("Order record " + id + " has been deleted.");
+			System.out.println("Successfully deleted order!");
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 }

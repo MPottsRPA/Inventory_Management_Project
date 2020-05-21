@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public interface IQuery {
 
 	// Create method.
-	public void create(Object object);
+	public Object create(Object object);
 
 	// Read method which treats each record as an object and puts them into an array
 	// list to return all records in the table.
@@ -16,6 +16,6 @@ public interface IQuery {
 	public Object readRecord(int id);
 
 	// Delete method
-	public void delete(int id);
+	public boolean delete(int id);
 
 }
